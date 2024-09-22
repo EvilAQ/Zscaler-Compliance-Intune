@@ -1,0 +1,65 @@
+ZSA service check script 
+try {
+    $URL = Invoke-WebRequest http://ip.zscaler.com/
+    $checkzscaler = ($URL.ParsedHtml.getElementsByTagName('div') | Where-Object { $_.className -eq 'headline' }).innerText
+    $ZScalerStatus = @{ "ZScalerStatus" = $checkzscaler }
+
+    # Check if Zscaler is running
+    if ($ZScalerStatus.ZScalerStatus -ne "Zscaler service is not running.") {
+        $complianceStatus = @{ "ComplianceStatus" = "Compliant" }
+    } else {
+        $complianceStatus = @{ "ComplianceStatus" = "Non-Compliant" }
+    }
+
+    # Combine ZScalerStatus and ComplianceStatus into one object
+    $result = $ZScalerStatus + $complianceStatus
+
+    # Output the result to a JSON file
+    $result | ConvertTo-Json -Compress
+} catch {
+    Write-Host "Error occurred while fetching ZScaler status: $_"
+    # Handle error gracefully, e.g., logging, alternative action, etc.
+}
+
+
+
+
+
+Json Validation File 
+{
+    "Rules": [
+        {
+            "SettingName": "ZScalerStatus",
+            "Operator": "isEquals",
+            "DataType": "String",
+            "Operand": "You are accessing the Internet via Zscaler Cloud: San Francisco IV in the zscalertwo.net cloud.",
+            "MoreInfoUrl": "https://help.zscaler.com/client-connector/using-zscaler-client-connector",
+            "RemediationStrings": [
+                {
+                    "Language": "en_US",
+                    "Title": "Ensure ZScaler Internet Access is running.",
+                    "Description": "To resolve this issue, start the ZScaler Internet Access service.",
+                    "URL": "
+a"
+                }
+            ]
+        },
+        {
+            "SettingName": "ComplianceStatus",
+            "Operator": "isEquals",
+            "DataType": "String",
+            "Operand": "Compliant",
+            "MoreInfoUrl": "https://help.zscaler.com/client-connector/using-zscaler-client-connector",
+            "RemediationStrings": [
+                {
+                    "Language": "en_US",
+                    "Title": "Ensure ZScaler Internet Access is running.",
+                    "Description": "To resolve this issue, start the ZScaler Internet Access service.",
+                    "URL": ""
+                }
+            ]
+        }
+    ]
+}
+
+
