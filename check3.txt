@@ -1,0 +1,23 @@
+{
+    "Rules": [
+        {
+            "SettingName": "ZScalerServiceRunning",
+            "SupportedLocales": ["en_US"],
+            "Operator": "Equals",
+            "DataType": "String",
+            "Operand": "Zscaler service is not running.",
+            "ComplianceStatus": "Non-Compliant",
+            "Title": "ZScaler Internet Access must be running.",
+            "Description": "Please make sure that the ZScaler Internet Access is running.",
+            "MoreInfoUrl": "https://help.zscaler.com/client-connector/using-zscaler-client-connector",
+            "RemediationStrings": [
+                {
+                    "Language": "en_US",
+                    "Title": "Ensure ZScaler Internet Access is running.",
+                    "Description": "To resolve this issue, start the ZScaler Internet Access service.",
+                    "URL": "Add you own website here"
+                }
+            ]
+        }
+    ]
+}
